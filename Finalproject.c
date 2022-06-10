@@ -8,13 +8,13 @@ int main()
   printf("\nWelcome to the VNU's library\n");
   printf("Please enter your information");
 
-  printf("\nName          :");
+  printf("\nName          : ");
   gets(nameStudent);
 
-  printf("\nClass         :");
+  printf("Class         : ");
   gets(nameClass);
 
-  printf("\nStudent ID    :");
+  printf("Student ID    : ");
   gets(userID);
 
 
@@ -61,26 +61,26 @@ int main()
      scanf("%s", &userSelection);
      printf("\n-----------------------------------------------");
 
-     if (userSelection == 'B' || userSelection == 'b' )
+    if (userSelection == 'B' || userSelection == 'b' )
      {
          printf("\nWould you like to watch the booklist? (Y: Yes, N: No): ");
          scanf(" %c", &userListBook);
 
-         if (userListBook == 'Y' || userListBook == 'y')
+        if (userListBook == 'Y' || userListBook == 'y')
          {
              printf("List of available books\n");
              printf("-----------------------------------------------\n");
 
              for(int i = 0; i < 10; i++)
                 {
-                  printf(" %s\t\t\t\t%s\n", BookName[i], BookSerialNum[i]);
+                  printf("%-30s %-10s \n", BookName[i], BookSerialNum[i]);
                 }
                 printf("-----------------------------------------------\n");
 
                 printf("\n\nDo you want to go back to the home screen? [Y: Yes | N: No]: ");
                 scanf(" %c", &exit);
          }
-         else if (userListBook == 'n' || userListBook == 'N')
+        else if (userListBook == 'n' || userListBook == 'N')
          { //decide not to watch the booklist
              printf("\nEnter the Book ID:");
              scanf(" %s", &bookID);
@@ -88,17 +88,17 @@ int main()
              printf("\nRe-enter your student ID: ");
              scanf(" %s", &userID);
 
-             int numberoflatereturns = rand() % 6; //random number between 0 and 11
+             int numberoflatereturns = rand() %6; //random number between 0 and 11
 
-             if (numberoflatereturns < 5)
+            if (numberoflatereturns < 5)
                 {
                 printf("\nYou can borrow book within 2 weeks");
                 }
-             else if (numberoflatereturns > 5)
+            else if (numberoflatereturns > 5)
                 {
                 printf("\nYou can not borrow books");
                 }
-             else
+            else
                 {
                 printf("Error please re-enter input\n");
                 }
@@ -108,14 +108,15 @@ int main()
      } // end of if (userSelection)
 
     else if (userSelection == 'R' || userSelection == 'r')
-        {
-         int d1,m1,y1,d2,m2,y2;
+    {
+        int d1,m1,y1,d2,m2,y2;
          fflush(stdin);
-         printf("\nEnter the first date you borrow the book (dd mm yyyy): ");
-         scanf("%d%d%d","%d1","%m1","%y1");
-         printf("\nEnter the date you return the book (dd mm yyyy): ");
-         scanf("%d%d%d","%d2","%m2","%y2");
-        }
+         
+         printf("\nEnter the first date you borrow the book (dd/mm/yyyy): ");
+         scanf("%d/%d/%d",&d1,&m1,&y1);
+         
+         printf("\nEnter the date you return the book (dd/mm/yyyy): ");
+         scanf("%d/%d/%d",&d2,&m2,&y2);
+    }
   } //end of do
   while (exit == 'y' || exit == 'Y'); }//exit the program
-
