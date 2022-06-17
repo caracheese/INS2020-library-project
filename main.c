@@ -1,179 +1,308 @@
-/*******************************************************************************
-*
-* Program: Read And Write Array Of Structs To A Binary File
-*
-* Description: Example of writing an array of structs to a binary file and
-* reading an array of structs from a binary file.
-*
-* YouTube Lesson: https://www.youtube.com/watch?v=0SkdAoVzWpk
-*
-* Author: Kevin Browne @ https://portfoliocourses.com
-*
-*******************************************************************************/
-
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <conio.h>
 
-// define a simple Student struct with 3 members (student name, age, average)
-typedef struct
-{
-  char name[256];
-  int year;
-  double average;
-} Student;
+struct Book{
+    char name[30];
+    char ID[30];
+    char RV[90];
+    int price,dO,mO,yO,dE,mE,yE;
+    int ex;
+};
 
-bool write_data(char *filename, Student *data, int total);
-Student *read_data(char *filename, int *total);
+typedef struct Book PR;
 
-int main()
-{
-  // dynamically allocate space for an array of 3 Student structs
-  Student *library;
-  school = malloc(sizeof(Student) * 3);
+void Add(PR *pr);
+void AddN(PR a[], int n);
+void xuat(PR pr);
+void xuatN(PR a[], int n);
+void SortExpirationDate(PR a[], int n);
+void SearchByID(PR a[], int n);
+PR max(PR a[], int n);
+PR min(PR a[], int n);
+void ExpirationDate(PR *pr);
+void ExportFile(PR a[], int n, char fileName[]);
+void timkiemtheogia(PR a[], int n);
+void Delete(PR a[], int n);
 
-  // initialize the array of structs with sample data
-  strcpy(school[0].name, "John");
-  school[0].age = 19;
-  school[0].average = 80.25;
+int main() {
+    int key;
+    char fileName[] = "Book.txt";
+    int n;
+    bool Existed = false;
+    do {
+        printf("\nInsert number of books: "); scanf("%d", &n);
+    } while (n <= 0);
+    PR a[n], pr_temp;
+    while (true) {
+        system("cls");
+        printf("**************************************************\n");
+        printf("**                                              **\n");
+        printf("**          LIBRARY MANAGEMENT PROGRAM          **\n");
+        printf("**                                              **\n");
+        printf("**          1. Add books                        **\n");
+        printf("**          2. Show book list                  **\n");
+        printf("**          3. Sort books by expiration date    **\n");
+        printf("**          4. Find book based on ID            **\n");
+        printf("**          5. Delete book by ID                **\n");
+        printf("**          6. Newest book                      **\n");
+        printf("**          7. Oldest book                      **\n");
+        printf("**          8. Show Contact Record             **\n");
+        printf("**          0. Exit                             **\n");
+        printf("**                                              **\n");
+        printf("**************************************************\n");
+        printf("**       Type what you want       	 **\n");
+        scanf("%d", &key);
+        switch (key) {
+        case 1:
+            printf("\nYou picked Add books");
+            AddN(a, n);
+            printf("\nThank you.");
+            Existed = true;
 
-  strcpy(school[1].name, "Nyra");
-  school[1].age = 21;
-  school[1].average = 90.50;
+            printf("\nPress any key to continue.\n");
+            getch();
+            break;
+        case 2:
+            if (Existed) {
+                printf("\nYou picked Show book list");
+                ShowN(a, n);
+            }
+            else {
+                printf("\nPlease input the book(s) first.");
+            }
+            printf("\nPress any key to continue.\n");
+            getch();
+            break;
+        case 3:
+            if (Existed) {
+                printf("\nYou picked Sort books by expiration date: ");
+                SortExpirationDate(a, n);
+                ShowN(a, n);
+            }
+            else {
+                printf("\nPlease input the book(s) first.");
+            }
+            printf("\nPress any key to continue.\n");
+            getch();
+            break;
+        case 4:
+            if (Existed) {
+                printf("\nYou picked Find book based on ID");
+                SearchByID(a, n);
+            }
+            else {
+                printf("\nPlease input the book(s) first.");
+            }
+            printf("\nPress any key to continue.\n");
+            getch();
+            break;
 
-  strcpy(school[2].name, "Nageeb");
-  school[2].age = 20;
-  school[2].average = 85.66;
-
-  // attempt to write the data to the file, exit with an error status if there
-  // is a problem writing the data otherwise report writing data was OK
-  if (write_data("school.bin", school, 3))
-    printf("Write data OK.\n");
-  else
-  {
-    printf("Error writing to file.\n");
-    return 1;
-  }
-  // free the original dynamically allocated array as we are done with it now
-  free(school);
-
-  // total will store the total number of structs (we could call them records
-  // of data) retrieved from the file, and file_data will be a pointer to a
-  // dynamically allocated array on the heap containing the structs
-  int total = 0;
-  Student *file_data;
-
-  // attempt to read the data from the file
-  file_data = read_data("school.bin", &total);
-
-  // if the read was unsuccessful, report the error and exit with error status
-  if (file_data == NULL)
-  {
-    printf("Error reading from file.\n");
-    return 1;
-  }
-
-  // output the data that was read from the file for verification
-  printf("\nData read OK.\n\n");
-  for (int i = 0; i < total; i++)
-  {
-    printf("Student %d\n", i + 1);
-    printf("Name: %s\n", file_data[i].name);
-    printf("Age: %d\n", file_data[i].age);
-    printf("Avg: %.2f\n", file_data[i].average);
-    printf("\n");
-  }
-
-  // free the dynamically allocated array used to store the data read from
-  // the file
-  free(file_data);
-
-  return 0;
+        case 5:
+            if (Existed) {
+                printf("\nYou picked Delete book by ID");
+                Delete(a,n);
+            }
+            else {
+                printf("\nPlease input the book(s) first.");
+            }
+            printf("\nPress any key to continue.\n");
+            getch();
+            break;
+        case 6:
+            if (Existed) {
+                printf("\nYou chose to look at the newest book");
+                pr_temp = max
+            (a, n);
+                Show(pr_temp);
+            }
+            else {
+                printf("\nPlease input the book(s) first.");
+            }
+            printf("\nPress any key to continue.\n");
+            getch();
+            break;
+        case 7:
+            if (Existed) {
+                printf("\nYou chose to look at the oldest book");
+                pr_temp = min(a, n);
+                Show(pr_temp);
+            }
+            else {
+                printf("\nPlease input the book(s) first.");
+            }
+            printf("\nPress any key to continue.\n");
+            getch();
+            break;
+        case 8:
+            if (Existed) {
+                printf("\nYou picked Show book list");
+                ExportFile(a, n, fileName);
+            }
+            else {
+                printf("\nPlease input the book(s) first.\n");
+            }
+            printf("\nYou printed %s successfully!", fileName);
+            printf("\nPress any key to continue.\n");
+            getch();
+            break;
+        case 0:
+            printf("\nExit the function.");
+            getch();
+            return 0;
+        default:
+            printf("\nNo function selected.");
+            printf("\nPress any key to continue.\n");
+            getch();
+            break;
+        }
+    }
 }
 
-// Returns true if the function was successful in writing total number of
-// Student structs stored in the data array to the file named filename, and
-// returns false if there was an error.
-//
-// We write the *total* to the file first, followed by the array of structs,
-// so that way when the file is later read we know large of an array to
-// allocate space for to store the data, i.e. the file format will be:
-//
-// total
-// data[0]
-// data[1]
-// ...
-//
-bool write_data(char *filename, Student *data, int total)
-{
-  // file pointer variable
-  FILE *file;
-
-  // attempt to open the file with name filename, in 'write to binary file mode'
-  file = fopen(filename, "wb");
-
-  // return false if there was an error opening the file
-  if (file == NULL) return false;
-
-  // write the total number of structs in the array to the file, return false
-  // if the function fails to write the data successfully
-  if (fwrite(&total, sizeof(int), 1, file) != 1)
-    return false;
-
-  // write the structs in the array to the file, return false if the function
-  // fails to write the data successfully
-  if (fwrite(data, sizeof(Student), total, file) != total)
-    return false;
-
-  // close access to the file, return false if this fails
-  if (fclose(file) == EOF) return false;
-
-  // if everything is successful return true
-  return true;
+void ExpirationDate(PR *pr) {
+    pr->dE = pr->dO;
+    if (pr->mO + pr->ex > 12) {
+        pr->mE = (pr->mO+pr->ex)-12;
+        pr->yE = pr->yO + 1;
+    }
+    else {
+        pr->mE = pr->mO + pr->ex;
+        pr->yE = pr->yO;
+    }
 }
 
-// Reads the array of Student structs from the file with filename, storing
-// them in a dynamically allocated array a pointer to which is returned by
-// the function, which also returns via the total parameter and pass by
-// pointer the total number of structs read from the file.  If reading the
-// file was unsuccessful we return NULL.
-Student *read_data(char *filename, int *total)
-{
-  FILE *file;
+void Add(PR *pr) {
+    printf("\nBook title: ");
+    fflush(stdin);
+    gets(pr->name);
+    printf("\nBook ID: ");
+    fflush(stdin);
+    gets(pr->ID);
+    printf("\nInput price: ");
+    scanf("%d", &pr->price);
+    printf("\nDate borrowed: ");
+    scanf("%d/%d/%d",&pr->dO,&pr->mO,&pr->yO);
+    printf("\nExpired after (month): ");
+    scanf("%d",&pr->ex);
+    ExpirationDate(pr);
+}
 
-  // open the file with name filename in 'read a binary file mode'
-  file = fopen(filename, "rb");
+void AddN(PR a[], int n) {
+    printf("\n____________________________________\n");
+    for (int i = 0; i < n; ++i) {
+        printf("\nInput book number %d:", i + 1);
+        Add(&a[i]);
+    }
+    printf("\n____________________________________\n");
+}
 
-  // if fopen() failed to open the file, return NULL
-  if (file == NULL) return NULL;
+void Show(PR pr) {
+    printf("\nBook title: %s", pr.name);
+    printf("\nBook ID  : %s", pr.ID);
+    printf("\nDate borrowed: %d/%d/%d",pr.dO,pr.mO,pr.yO);
+    printf("\nExpiration date: %d/%d/%d",pr.dE,pr.mE,pr.yE);
+    printf("\nPrice: %d", pr.price);
+    printf("\nExpiration after: %d month\n", pr.ex);
+}
 
-  // read the total number of Student struct data records stored in the file
-  // into the total pointer parameter
-  if (fread(total, sizeof(int), 1, file) != 1)
-    return NULL;
+void ShowN(PR a[], int n) {
+    printf("\n____________________________________\n");
+    for (int i = 0;i < n;++i) {
+        printf("\nBook %d:", i + 1);
+        Show(a[i]);
+    }
+    printf("\n____________________________________\n");
+}
 
-  // allocate enough space to store the array of Student structs
-  Student *data = malloc(sizeof(Student) * *total);
+void SortExpirationDate(PR a[], int n){
+        PR time;
+    for (int i = 0;i < n;++i){
+        for (int j = i + 1; j < n;++j){
+            if (a[i].yE*1000+a[i].mE*100+a[i].dE >a[j].yE*1000+a[j].mE*100+a[j].dE ){
+                time = a[i];
+                a[i] = a[j];
+                a[j] = time;
+            }
+        }
+    }
+}
 
-  // read the data from the file into the block of memory we have allocated,
-  // return NULL if the read was unsuccessful and free the dynamically allocated
-  // memory to prevent a memory leak
-  if (fread(data, sizeof(Student), *total, file) != *total)
-  {
-    free(data);
-    return NULL;
-  }
+void SearchByID(PR a[], int n){
+    char id[30];
+    printf("\nInput ID : ");
+    fflush(stdin);
+    gets(id);
+    printf("\n____________________________________\n");
+    for (int i = 0;i < n;i++)
+    {
+        if (strcmp(a[i].ID,id)==0)
+        {
+            printf("\nBook title: %s", a[i].name);
+            printf("\nBook ID: %s", a[i].ID);
+            printf("\nDate borrowed: %d/%d/%d",a[i].dO,a[i].mO,a[i].yO);
+            printf("\nExpiration Date: %d/%d/%d",a[i].dE,a[i].mE,a[i].yE);
+            printf("\nPrice: %d", a[i].price);
+            printf("\nExpiration: %d", a[i].ex);
+        }
+    }
+    printf("\n____________________________________\n");
+}
 
-  // close the file, if this is unsuccessful free the dynamically allocated
-  // memory to prevent a memory leak and return NULL
-  if (fclose(file) == EOF)
-  {
-    free(data);
-    return NULL;
-  }
+PR max(PR a[], int n) {
+    int index = 0;
+    int max = a[0].price;
+    for (int i = 0;i < n;i++) {
+        if (a[i].price > max) {
+            max = a[i].price;
+            index = i;
+        }
+    }
+    return a[index];
+}
 
-  // if everything is successful, return the pointer to the dynamically
-  // allocated array of Student structs
-  return data;
+PR min(PR a[], int n) {
+    int index = 0;
+    int min = a[0].price;
+    for (int i = 0;i < n;i++) {
+        if (a[i].price < min) {
+            min = a[i].price;
+            index = i;
+        }
+    }
+    return a[index];
+}
+
+void Delete(PR a[], int n){
+    char id[30];
+    printf("\nBook ID : ");
+    fflush(stdin);
+    gets(id);
+    printf("\n____________________________________\n");
+    for (int i = 0;i < n;i++)
+    {
+        if (strcmp(a[i].ID,id)!= 0)
+        {
+            printf("\nBook title: %s", a[i].name);
+            printf("\nBook ID: %s", a[i].ID);
+            printf("\nDate borrowed: %d/%d/%d",a[i].dO,a[i].mO,a[i].yO);
+            printf("\nExpiration date: %d/%d/%d",a[i].dE,a[i].mE,a[i].yE);
+            printf("\nPrice: %d", a[i].price);
+            printf("\nExpiration: %d\n", a[i].ex);
+        }
+        else{
+            continue;
+        }
+    }
+}
+
+void ExportFile(PR a[], int n, char fileName[]) {
+    FILE* fp;
+    fp = fopen(fileName, "w");
+    fprintf(fp, "%20s%5s%10s%10s%10s\n", "Book title", "\tID", "\tPrice", "\tDate borrowed", "\tExpiration date");
+    for (int i = 0;i < n;i++) {
+        fprintf(fp, "%15s%12s%9d%8d/%d/%d%8d/%d/%d\n", a[i].name, a[i].ID, a[i].price,a[i].dO,a[i].mO,a[i].yO,a[i].dE,a[i].mE,a[i].yE);
+    }
+    fclose(fp);
 }
