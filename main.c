@@ -23,7 +23,7 @@ void ExportFile(book a[], int n, char fileName[]);
 void Delete(book a[], int n);
 
 int main(){
-    Role();
+    Menu();
     return 0;
 }
 
@@ -68,7 +68,7 @@ void ReturnN(book a[], int n) {
     printf("\n____________________________________\n");
 }
 
-void AdminMenu(){
+void Menu(){
     int key;
     char fileName[] = "Book.txt";
     int n;
@@ -88,8 +88,8 @@ void AdminMenu(){
         printf("**          3. Sort books by expiration date    **\n");
         printf("**          4. Find book based on ID            **\n");
         printf("**          5. Delete book by ID                **\n");
-        printf("**          6. Newest book                      **\n");
-        printf("**          7. Oldest book                      **\n");
+        printf("**          6. Borrow books                     **\n");
+        printf("**          7. Return book                      **\n");
         printf("**          0. Exit                             **\n");
         printf("**                                              **\n");
         printf("**************************************************\n");
@@ -153,10 +153,8 @@ void AdminMenu(){
             break;
         case 6:
             if (Existed) {
-                printf("\nYou chose to look at the newest book");
-                pr_temp = max
-            (a, n);
-                Show(pr_temp);
+                printf("\nYou picked Borrow books");
+                Borrow(a,n);
             }
             else {
                 printf("\nPlease input the book(s) first.");
@@ -165,17 +163,10 @@ void AdminMenu(){
             getch();
             break;
         case 7:
-            if (Existed) {
-                printf("\nYou chose to look at the oldest book");
-                pr_temp = min(a, n);
-                Show(pr_temp);
-            }
-            else {
-                printf("\nPlease input the book(s) first.");
-            }
-            printf("\nPress any key to continue.\n");
-            getch();
-            break;
+            printf("\nYou picked Return books");
+            ReturnN(a, n);
+            printf("\nThank you.");
+            Existed = true;
         case 0:
             printf("\n\n\n\t\t\t\tThank you.\n\n\n\n\n");
             exit(1);
@@ -202,7 +193,7 @@ void ExpirationDate(book *pr) {
 
 void Add(book *pr) {
     printf("\nBook title: ");
-    fflush(stdin);
+    fflush(stdin);//xoa bo dem
     gets(pr->name);
     printf("\nBook ID: ");
     fflush(stdin);
@@ -332,85 +323,4 @@ void ExportFile(book a[], int n, char fileName[]) {
         fprintf(fp, "%15s%12s%9d%8d/%d/%d%8d/%d/%d\n", a[i].name, a[i].ID, a[i].price,a[i].dO,a[i].mO,a[i].yO,a[i].dE,a[i].mE,a[i].yE);
     }
     fclose(fp);
-}
-
-void UserMenu(){
-    int selection = 0;
-    char fileName[] = "Book.txt";
-    int n;
-    bool Existed = false;
-    do {
-        printf("\nInsert number of books: "); scanf("%d", &n);
-    } while (n <= 0);
-    book a[n], pr_temp;
-    while (true) {
-        printf("**************************************************\n");
-        printf("**                                              **\n");
-        printf("**            WELCOME TO THE LIBRARY            **\n");
-        printf("**                                              **\n");
-        printf("**          1. Borrow books                     **\n");
-        printf("**          2. Return books                     **\n");
-        printf("**          0. Exit                             **\n");
-        printf("**                                              **\n");
-        printf("**************************************************\n");
-        printf("\n\n\n\t\t\tEnter choice => ");
-        scanf("%d",&selection);
-        switch(selection){
-        case 1:
-            if (Existed) {
-                printf("\nYou picked Borrow books");
-                Borrow(a,n);
-            }
-            else {
-                printf("\nPlease input the book(s) first.");
-            }
-            printf("\nPress any key to continue.\n");
-            getch();
-            break;
-        case 2:
-            printf("\nYou picked Return books");
-            ReturnN(a, n);
-            printf("\nThank you.");
-            Existed = true;
-        case 0:
-            printf("\n\n\n\t\t\t\tThank you.\n\n\n\n\n");
-            exit(1);
-            break;
-        default:
-            printf("\n\n\n\t\t\tInvalid input, please try again.");
-        }                                            //Switch Ended
-    }
-    while(selection!=0);                                        //Loop Ended
-}
-
-void Role(){
-    int role = 0;
-    do{
-        printf("**************************************************\n");
-        printf("**                                              **\n");
-        printf("**     Please select your role to continue.     **\n");
-        printf("**                                              **\n");
-        printf("**          1. Admin                            **\n");
-        printf("**          2. User                             **\n");
-        printf("**          0. Exit                             **\n");
-        printf("**                                              **\n");
-        printf("**************************************************\n");
-        printf("\n\n\n\t\t\tEnter choice => ");
-        scanf("%d",&role);
-        switch(role)
-        {
-        case 1:
-            AdminMenu();
-            break;
-        case 2:
-            UserMenu();
-            break;
-        case 0:
-            printf("\n\n\n\t\t\t\tExit the program.\n\n\n\n\n");
-            exit(1);
-            break;
-        default:
-            printf("\n\n\n\t\t\tInvalid input, please try again.");
-        }                                            //Switch Ended
-    }while(role!=0);                                        //Loop Ended
 }
