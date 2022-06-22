@@ -5,13 +5,17 @@
 #include <conio.h>
 
 typedef struct{
-    char name[30];
+    char title[30];
     char ID[30];
-    char RV[90];
-    int price,dO,mO,yO,dE,mE,yE;
+    char author[90];
+    int quantity,dO,mO,yO,dE,mE,yE;
     int ex;
 } book;
 
+void Menu();
+void Borrow(book a[], int n);
+void Return(book *pr);
+void ReturnN(book a[], int n);
 void Add(book *pr);
 void AddN(book a[], int n);
 void SortExpirationDate(book a[], int n);
@@ -21,6 +25,8 @@ book min(book a[], int n);
 void ExpirationDate(book *pr);
 void ExportFile(book a[], int n, char fileName[]);
 void Delete(book a[], int n);
+void ShowN(book a[], int n);
+void Show(book pr);
 
 int main(){
     Menu();
@@ -37,11 +43,11 @@ void Borrow(book a[], int n){
     {
         if (strcmp(a[i].ID,id)!= 0)
         {
-            printf("\nBook title: %s", a[i].name);
+            printf("\nBook title: %s", a[i].title);
             printf("\nBook ID: %s", a[i].ID);
             printf("\nDate borrowed: %d/%d/%d",a[i].dO,a[i].mO,a[i].yO);
             printf("\nExpiration date: %d/%d/%d",a[i].dE,a[i].mE,a[i].yE);
-            printf("\nPrice: %d", a[i].price);
+            printf("\nPrice: %d", a[i].quantity);
             printf("\nExpiration: %d\n", a[i].ex);
         }
         else{
@@ -53,7 +59,7 @@ void Borrow(book a[], int n){
 void Return(book *pr) {
     printf("\nBook title: ");
     fflush(stdin);
-    gets(pr->name);
+    gets(pr->title);
     printf("\nBook ID: ");
     fflush(stdin);
     gets(pr->ID);
@@ -194,12 +200,12 @@ void ExpirationDate(book *pr) {
 void Add(book *pr) {
     printf("\nBook title: ");
     fflush(stdin);//xoa bo dem
-    gets(pr->name);
+    gets(pr->title);
     printf("\nBook ID: ");
     fflush(stdin);
     gets(pr->ID);
-    printf("\nInput price: ");
-    scanf("%d", &pr->price);
+    printf("\nInput quantity: ");
+    scanf("%d", &pr->quantity);
     printf("\nDate borrowed: ");
     scanf("%d/%d/%d",&pr->dO,&pr->mO,&pr->yO);
     printf("\nExpired after (month): ");
@@ -217,11 +223,11 @@ void AddN(book a[], int n) {
 }
 
 void Show(book pr) {
-    printf("\nBook title: %s", pr.name);
+    printf("\nBook title: %s", pr.title);
     printf("\nBook ID  : %s", pr.ID);
     printf("\nDate borrowed: %d/%d/%d",pr.dO,pr.mO,pr.yO);
     printf("\nExpiration date: %d/%d/%d",pr.dE,pr.mE,pr.yE);
-    printf("\nPrice: %d", pr.price);
+    printf("\nPrice: %d", pr.quantity);
     printf("\nExpiration after: %d month\n", pr.ex);
 }
 
@@ -257,11 +263,11 @@ void SearchByID(book a[], int n){
     {
         if (strcmp(a[i].ID,id)==0)
         {
-            printf("\nBook title: %s", a[i].name);
+            printf("\nBook title: %s", a[i].title);
             printf("\nBook ID: %s", a[i].ID);
             printf("\nDate borrowed: %d/%d/%d",a[i].dO,a[i].mO,a[i].yO);
             printf("\nExpiration Date: %d/%d/%d",a[i].dE,a[i].mE,a[i].yE);
-            printf("\nPrice: %d", a[i].price);
+            printf("\nPrice: %d", a[i].quantity);
             printf("\nExpiration: %d", a[i].ex);
         }
     }
@@ -270,10 +276,10 @@ void SearchByID(book a[], int n){
 
 book max(book a[], int n) {
     int index = 0;
-    int max = a[0].price;
+    int max = a[0].quantity;
     for (int i = 0;i < n;i++) {
-        if (a[i].price > max) {
-            max = a[i].price;
+        if (a[i].quantity > max) {
+            max = a[i].quantity;
             index = i;
         }
     }
@@ -282,10 +288,10 @@ book max(book a[], int n) {
 
 book min(book a[], int n) {
     int index = 0;
-    int min = a[0].price;
+    int min = a[0].quantity;
     for (int i = 0;i < n;i++) {
-        if (a[i].price < min) {
-            min = a[i].price;
+        if (a[i].quantity < min) {
+            min = a[i].quantity;
             index = i;
         }
     }
@@ -302,11 +308,11 @@ void Delete(book a[], int n){
     {
         if (strcmp(a[i].ID,id)!= 0)
         {
-            printf("\nBook title: %s", a[i].name);
+            printf("\nBook title: %s", a[i].title);
             printf("\nBook ID: %s", a[i].ID);
             printf("\nDate borrowed: %d/%d/%d",a[i].dO,a[i].mO,a[i].yO);
             printf("\nExpiration date: %d/%d/%d",a[i].dE,a[i].mE,a[i].yE);
-            printf("\nPrice: %d", a[i].price);
+            printf("\nPrice: %d", a[i].quantity);
             printf("\nExpiration: %d\n", a[i].ex);
         }
         else{
@@ -320,7 +326,7 @@ void ExportFile(book a[], int n, char fileName[]) {
     fp = fopen(fileName, "w");
     fprintf(fp, "%20s%5s%10s%10s%10s\n", "Book title", "\tID", "\tPrice", "\tDate borrowed", "\tExpiration date");
     for (int i = 0;i < n;i++) {
-        fprintf(fp, "%15s%12s%9d%8d/%d/%d%8d/%d/%d\n", a[i].name, a[i].ID, a[i].price,a[i].dO,a[i].mO,a[i].yO,a[i].dE,a[i].mE,a[i].yE);
+        fprintf(fp, "%15s%12s%9d%8d/%d/%d%8d/%d/%d\n", a[i].title, a[i].ID, a[i].quantity,a[i].dO,a[i].mO,a[i].yO,a[i].dE,a[i].mE,a[i].yE);
     }
     fclose(fp);
 }
